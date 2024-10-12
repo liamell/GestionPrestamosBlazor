@@ -1,0 +1,128 @@
+﻿@page "/Cobro/Index"
+
+@inject CobrosService cobroService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Index</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h5 class="card-title">Registro Cobros</h5>
+        </div>
+
+        <div class="card-body">
+
+            @*labels*@
+            <div class="row">
+
+                @*Filtrar por*@
+                <div class="col-3">
+                    <label class="col-form-label"><strong>Filtrar por</strong></label>
+                </div>
+
+                @*ValorFiltro*@
+                <div class="col-4">
+                    <label class="col-form-label"><strong>B&uacute;squeda</strong></label>
+                </div>
+            </div>
+
+            @*Inputs y botones*@
+            <div class="row align-items-center">
+                @*filtro*@
+                <div class="col-3">
+                    <InputSelect class="form-select" @bind-Value="Filtro">
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
+                        <option value="Deudor">Deudor</option>
+                    </InputSelect>
+                </div>
+
+                @*Busqueda*@
+                <div class="col-4">
+                    <div class="input-group">
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+                    </div>
+                </div>
+
+                @*Restablecer*@
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Restablecer"></button>
+                </div>
+            </div>
+
+            <table class="table table-hover">
+                <thead class="text-center">
+                    <tr>
+                        <th><strong>CobroId</strong></th>
+                        <th><strong>Fecha</strong></th>
+                        <th><strong>Deudor</strong></th>
+                        <th><strong>Monto</strong></th>
+                        <th><strong>Observar</strong></th>
+                        <th><strong>Editar</strong></th>
+                        <th><strong>Eliminar</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @foreach (var cobro in ListaCobros)
+                    {
+                        <tr>
+                            <td> @cobro.CobroId</td>
+                            <td> @cobro.Fecha</td>
+                            <td> @cobro.Deudor.Nombres</td>
+                            <td> @cobro.Monto</td>
+
+                            <td class="text-center">
+                                <a href="/Cobro/Details/@cobro.CobroId" class="btn btn-outline-primary bi bi-eye"></a>
+                            </td>
+
+                            <td class="text-center">
+                                <a href="/Cobro/Edit/@cobro.CobroId" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                            </td>
+
+                            <td class="text-center">
+                                <a href="/Cobro/Delete/@cobro.CobroId" class="btn btn-outline-danger bi bi-trash"></a>
+                            </td>
+                        </tr>
+
+                    }
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a href="/Cobros/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<Cobros> ListaCobros { get; set; } = new List<Cobros>();
+
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCobros = await cobroService.Listar(c => c.CobroId > 0);
+    }
+
+    private async Task Buscar()
+    {
+        if (ValorFiltro.Trim() != "")
+        {
+            if (Filtro == "Deudor")
+            {
+                ListaCobros = await cobroService.Listar(p => p.Deudor.Nombres.ToLower().Contains(ValorFiltro.ToLower()));
+            }
+        }
+        else
+            ListaCobros = await cobroService.Listar(p => p.CobroId > 0);
+    }
+    private async Task Restablecer()
+    {
+        ListaCobros = await cobroService.Listar(e => e.CobroId > 0);
+        Filtro = string.Empty;
+        ValorFiltro = string.Empty;
+    }
+}

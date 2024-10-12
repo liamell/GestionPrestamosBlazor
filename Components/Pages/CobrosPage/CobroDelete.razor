@@ -1,0 +1,73 @@
+﻿@page "/Cobro/Delete/{CobroId:int}"
+
+@inject CobrosService cobroService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Delete</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        @*header*@
+        <div class="card-header text-center">
+            <h5><strong>Datos del cobro</strong></h5>
+        </div>
+        @*body*@
+        <div class="card-body">
+            <div class="text-center">
+                <h5><strong>Desea eliminar el cobro?</strong></h5>
+            </div>
+            <ul>
+                <li><strong>CobroId: </strong>@Cobro.CobroId</li>
+                <li><strong>Fecha: </strong>@Cobro.Fecha</li>
+                <li><strong>DeudorId: </strong>@Cobro.Deudor.DeudorId</li>
+                <li><strong>Deudor: </strong>@Cobro.Deudor.Nombres</li>
+                <li><strong>Monto: $</strong>@Cobro.Monto</li>
+            </ul>
+            <div class="border border-success p-2 mt-2">
+                <h7><strong>Detalles de cobro</strong></h7>
+                <div>
+                    @foreach (var detalle in Cobro.CobroDetalle)
+                    {
+                        <li class="mt-2">
+                            Préstamo ID: @detalle.PrestamoId, Valor Cobrado: @detalle.ValorCobrado
+                        </li>
+                    }
+                </div>
+            </div>
+        </div>
+        @*Footer*@
+        <div class="card-footer text-center">
+            <a href="/Cobro/Index" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
+            <button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
+        </div>
+    </div>
+</div>
+@Mensaje
+
+@code {
+    [Parameter]
+    public int CobroId { get; set; }
+
+    public Cobros Cobro { get; set; } = new Cobros();
+    public string Mensaje { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cobro = await cobroService.Buscar(CobroId);
+    }
+
+    public async Task Eliminar()
+    {
+        var eliminado = await cobroService.Eliminar(Cobro.CobroId);
+
+        if (eliminado)
+        {
+            Mensaje = "Se elimino correctamente";
+            navigationManager.NavigateTo("/Cobro/Index");
+        }
+        else
+        {
+            Mensaje = "No se ha eliminado correctamente";
+        }
+    }
+}
