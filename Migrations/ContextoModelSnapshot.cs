@@ -22,30 +22,6 @@ namespace GestionPrestamos.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("GestionPrestamos.Models.CobrosDetalle", b =>
-                {
-                    b.Property<int>("DetalleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetalleId"));
-
-                    b.Property<int>("CobroId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrestamoId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("ValorCobrado")
-                        .HasColumnType("float");
-
-                    b.HasKey("DetalleId");
-
-                    b.HasIndex("CobroId");
-
-                    b.ToTable("CobrosDetalle");
-                });
-
             modelBuilder.Entity("GestionPrestamos.Models.Cobros", b =>
                 {
                     b.Property<int>("CobroId")
@@ -70,6 +46,30 @@ namespace GestionPrestamos.Migrations
                     b.ToTable("Cobros");
                 });
 
+            modelBuilder.Entity("GestionPrestamos.Models.CobrosDetalle", b =>
+                {
+                    b.Property<int>("DetalleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetalleId"));
+
+                    b.Property<int>("CobroId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrestamoId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ValorCobrado")
+                        .HasColumnType("float");
+
+                    b.HasKey("DetalleId");
+
+                    b.HasIndex("CobroId");
+
+                    b.ToTable("CobrosDetalle");
+                });
+
             modelBuilder.Entity("GestionPrestamos.Models.Deudores", b =>
                 {
                     b.Property<int>("DeudorId")
@@ -85,23 +85,6 @@ namespace GestionPrestamos.Migrations
                     b.HasKey("DeudorId");
 
                     b.ToTable("Deudores");
-
-                    b.HasData(
-                        new
-                        {
-                            DeudorId = 1,
-                            Nombres = "Juan Perez"
-                        },
-                        new
-                        {
-                            DeudorId = 2,
-                            Nombres = "Alina Garcia"
-                        },
-                        new
-                        {
-                            DeudorId = 3,
-                            Nombres = "Erian Brito"
-                        });
                 });
 
             modelBuilder.Entity("GestionPrestamos.Models.Prestamos", b =>
@@ -132,6 +115,17 @@ namespace GestionPrestamos.Migrations
                     b.ToTable("Prestamos");
                 });
 
+            modelBuilder.Entity("GestionPrestamos.Models.Cobros", b =>
+                {
+                    b.HasOne("GestionPrestamos.Models.Deudores", "Deudor")
+                        .WithMany("Cobros")
+                        .HasForeignKey("DeudorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Deudor");
+                });
+
             modelBuilder.Entity("GestionPrestamos.Models.CobrosDetalle", b =>
                 {
                     b.HasOne("GestionPrestamos.Models.Cobros", "Cobro")
@@ -143,21 +137,10 @@ namespace GestionPrestamos.Migrations
                     b.Navigation("Cobro");
                 });
 
-            modelBuilder.Entity("GestionPrestamos.Models.Cobros", b =>
-                {
-                    b.HasOne("GestionPrestamos.Models.Deudores", "Deudor")
-                        .WithMany()
-                        .HasForeignKey("DeudorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Deudor");
-                });
-
             modelBuilder.Entity("GestionPrestamos.Models.Prestamos", b =>
                 {
                     b.HasOne("GestionPrestamos.Models.Deudores", "Deudor")
-                        .WithMany()
+                        .WithMany("Prestamos")
                         .HasForeignKey("DeudorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -168,6 +151,13 @@ namespace GestionPrestamos.Migrations
             modelBuilder.Entity("GestionPrestamos.Models.Cobros", b =>
                 {
                     b.Navigation("CobrosDetalle");
+                });
+
+            modelBuilder.Entity("GestionPrestamos.Models.Deudores", b =>
+                {
+                    b.Navigation("Cobros");
+
+                    b.Navigation("Prestamos");
                 });
 #pragma warning restore 612, 618
         }

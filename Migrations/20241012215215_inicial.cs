@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace GestionPrestamos.Migrations
 {
     /// <inheritdoc />
@@ -90,25 +88,15 @@ namespace GestionPrestamos.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Deudores",
-                columns: new[] { "DeudorId", "Nombres" },
-                values: new object[,]
-                {
-                    { 1, "Juan Perez" },
-                    { 2, "Alina Garcia" },
-                    { 3, "Erian Brito" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Cobros_DeudorId",
+                table: "Cobros",
+                column: "DeudorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CobrosDetalle_CobroId",
                 table: "CobrosDetalle",
                 column: "CobroId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cobros_DeudorId",
-                table: "Cobros",
-                column: "DeudorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prestamos_DeudorId",
