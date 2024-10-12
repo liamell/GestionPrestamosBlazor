@@ -4,11 +4,12 @@
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
-<PageTitle></PageTitle>
+<PageTitle>Registro de Prestamos</PageTitle>
 <div class="container">
     <div class="card shadow-lg">
-        <div class="card-header">
-            <h5 class="card-title">Registro</h5>
+        <div class="card-header space-between">
+            <h5 class="card-title">Registro de Prestamos</h5>
+            <a href="/Prestamo/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
         </div>
 
         <div class="card-body">
@@ -46,25 +47,19 @@
                     </div>
                 </div>
 
-                @*Restablecer*@
-                <div class="col-auto">
-                    <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Restablecer"></button>
-                </div>
                 </div>
 
             <table class="table table-hover">
-                <thead class="text-center">
+                <thead class="table  table-striped text-black">
                     <tr>
                         <th><strong>PrestamoId</strong></th>
                         <th><strong>Deudor</strong></th>
                         <th><strong>Concepto</strong></th>
-                        <th><strong>Monto</strong></th>
-                        <th><strong>Observar</strong></th>
-                        <th><strong>Editar</strong></th>
-                        <th><strong>Eliminar</strong></th>
+                        <th><strong>Monto</strong></th> 
+                        <th><strong> </strong></th>
                     </tr>
                 </thead>
-                <tbody class="text-center">
+                <tbody>
                     @foreach(var prestamo in ListaPrestamos)
                     {
                         <tr>
@@ -72,26 +67,19 @@
                             <td> @prestamo.Deudor.Nombres</td>
                             <td> @prestamo.Concepto</td>
                             <td> @prestamo.Monto</td>
-
-                            <td class="text-center">
-                                <a href="/Prestamo/Details/@prestamo.PrestamosId" class="btn btn-outline-primary bi bi-eye"></a>
-                            </td>
-
+                            
                             <td class="text-center">
                                 <a href="/Prestamo/Edit/@prestamo.PrestamosId" class="btn btn-outline-primary bi bi-pencil-square"></a>
-                            </td>
-
-                            <td class="text-center">
                                 <a href="/Prestamo/Delete/@prestamo.PrestamosId" class="btn btn-outline-danger bi bi-trash"></a>
                             </td>
                         </tr>
-                        
                     }
                 </tbody>
             </table>
         </div>
-        <div class="card-footer">
-             <a href="/Prestamo/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+        <div class="card-footer space-between">
+            <label>Cantidad:  @ListaPrestamos.Count()</label> 
+            <label>Total:  @ListaPrestamos.Sum(p => p.Monto)</label> 
         </div>
     </div>
 </div>

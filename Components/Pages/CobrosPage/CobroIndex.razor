@@ -7,8 +7,9 @@
 <PageTitle>Index</PageTitle>
 <div class="container">
     <div class="card shadow-lg">
-        <div class="card-header">
+        <div class="card-header space-between">
             <h5 class="card-title">Registro Cobros</h5>
+            <a href="/Cobros/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
         </div>
 
         <div class="card-body">
@@ -43,24 +44,17 @@
                         <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
                         <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
                     </div>
-                </div>
-
-                @*Restablecer*@
-                <div class="col-auto">
-                    <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Restablecer"></button>
-                </div>
+                </div> 
             </div>
 
             <table class="table table-hover">
-                <thead class="text-center">
+                <thead class="table  table-striped text-black">
                     <tr>
                         <th><strong>CobroId</strong></th>
                         <th><strong>Fecha</strong></th>
                         <th><strong>Deudor</strong></th>
-                        <th><strong>Monto</strong></th>
-                        <th><strong>Observar</strong></th>
-                        <th><strong>Editar</strong></th>
-                        <th><strong>Eliminar</strong></th>
+                        <th><strong>Monto</strong></th> 
+                        <th><strong></strong></th> 
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -70,28 +64,20 @@
                             <td> @cobro.CobroId</td>
                             <td> @cobro.Fecha</td>
                             <td> @cobro.Deudor.Nombres</td>
-                            <td> @cobro.Monto</td>
-
-                            <td class="text-center">
-                                <a href="/Cobro/Details/@cobro.CobroId" class="btn btn-outline-primary bi bi-eye"></a>
-                            </td>
+                            <td> @cobro.Monto</td> 
 
                             <td class="text-center">
                                 <a href="/Cobro/Edit/@cobro.CobroId" class="btn btn-outline-primary bi bi-pencil-square"></a>
-                            </td>
-
-                            <td class="text-center">
                                 <a href="/Cobro/Delete/@cobro.CobroId" class="btn btn-outline-danger bi bi-trash"></a>
-                            </td>
+                            </td> 
                         </tr>
-
                     }
-                    
                 </tbody>
             </table>
-        </div>
-        <div class="card-footer">
-            <a href="/Cobros/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+        </div> 
+        <div class="card-footer space-between">
+            <label>Cantidad:  @ListaCobros.Count()</label>
+            <label>Total:  @ListaCobros.Sum(p => p.Monto)</label>
         </div>
     </div>
 </div>
