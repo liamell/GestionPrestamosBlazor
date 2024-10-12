@@ -1,6 +1,6 @@
-using GestionPrestamos.Service;
-using GestionPrestamos;
+using GestionPrestamos.Components;
 using GestionPrestamos.DAL;
+using GestionPrestamos.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

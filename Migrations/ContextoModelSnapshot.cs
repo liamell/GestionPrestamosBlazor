@@ -22,7 +22,7 @@ namespace GestionPrestamos.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("GestionPrestamos.Models.CobroDetalle", b =>
+            modelBuilder.Entity("GestionPrestamos.Models.CobrosDetalle", b =>
                 {
                     b.Property<int>("DetalleId")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace GestionPrestamos.Migrations
 
                     b.HasIndex("CobroId");
 
-                    b.ToTable("CobroDetalle");
+                    b.ToTable("CobrosDetalle");
                 });
 
             modelBuilder.Entity("GestionPrestamos.Models.Cobros", b =>
@@ -132,10 +132,10 @@ namespace GestionPrestamos.Migrations
                     b.ToTable("Prestamos");
                 });
 
-            modelBuilder.Entity("GestionPrestamos.Models.CobroDetalle", b =>
+            modelBuilder.Entity("GestionPrestamos.Models.CobrosDetalle", b =>
                 {
                     b.HasOne("GestionPrestamos.Models.Cobros", "Cobro")
-                        .WithMany("CobroDetalle")
+                        .WithMany("CobrosDetalle")
                         .HasForeignKey("CobroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -167,7 +167,7 @@ namespace GestionPrestamos.Migrations
 
             modelBuilder.Entity("GestionPrestamos.Models.Cobros", b =>
                 {
-                    b.Navigation("CobroDetalle");
+                    b.Navigation("CobrosDetalle");
                 });
 #pragma warning restore 612, 618
         }

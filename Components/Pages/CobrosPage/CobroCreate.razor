@@ -97,7 +97,7 @@
                     </div>
 
                     <ul class="mt-3">
-                        @foreach (var detalle in Cobro.CobroDetalle)
+                        @foreach (var detalle in Cobro.CobrosDetalle)
                         {
                             <li class="mt-2">Préstamo ID: @detalle.PrestamoId, Valor Cobrado: @detalle.ValorCobrado
                                 <button type="button" @onclick="() => Eliminar(detalle)" class="btn btn-outline-danger btn-sm ms-2">Eliminar</button>
@@ -160,7 +160,7 @@
             return;
         }
 
-        Cobro.CobroDetalle.Add(new CobrosDetalle
+        Cobro.CobrosDetalle.Add(new CobrosDetalle
             {
                 PrestamoId = nuevoDetalle.PrestamoId,
                 ValorCobrado = nuevoDetalle.ValorCobrado
@@ -186,7 +186,7 @@
 
     public void Eliminar(CobrosDetalle detalle)
     {
-        Cobro.CobroDetalle.Remove(detalle);
+        Cobro.CobrosDetalle.Remove(detalle);
         //
         nuevoDetalle.ValorCobrado = detalle.ValorCobrado;
     }

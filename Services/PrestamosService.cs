@@ -3,7 +3,7 @@ using GestionPrestamos.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace GestionPrestamos.Service;
+namespace GestionPrestamos.Services;
 
 public class PrestamosService(Contexto contexto)
 {

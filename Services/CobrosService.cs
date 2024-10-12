@@ -3,7 +3,7 @@ using GestionPrestamos.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace GestionPrestamos.Service;
+namespace GestionPrestamos.Services;
 
 public class CobrosService(Contexto contexto)
 {
@@ -39,19 +39,19 @@ public class CobrosService(Contexto contexto)
     public async Task<Cobros> Buscar(int cobroId)
     {
         return await contexto.Cobros.Include(d => d.Deudor)
-            .Include(d => d.CobroDetalle)
+            .Include(d => d.CobrosDetalle)
             .FirstOrDefaultAsync(c => c.CobroId == cobroId);
     }
 
     public async Task<bool> Eliminar(int cobroId)
     {
-        return await contexto.Cobros.Include(c => c.CobroDetalle).Where(c => c.CobroId == cobroId).ExecuteDeleteAsync() > 0;
+        return await contexto.Cobros.Include(c => c.CobrosDetalle).Where(c => c.CobroId == cobroId).ExecuteDeleteAsync() > 0;
     }
 
     public async Task<List<Cobros>> Listar(Expression<Func<Cobros, bool>> criterio)
     {
         return await contexto.Cobros.Include(d => d.Deudor)
-            .Include(d => d.CobroDetalle)
+            .Include(d => d.CobrosDetalle)
             .Where(criterio)
             .AsNoTracking()
             .ToListAsync();

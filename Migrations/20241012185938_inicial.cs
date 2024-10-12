@@ -70,7 +70,7 @@ namespace GestionPrestamos.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CobroDetalle",
+                name: "CobrosDetalle",
                 columns: table => new
                 {
                     DetalleId = table.Column<int>(type: "int", nullable: false)
@@ -81,9 +81,9 @@ namespace GestionPrestamos.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CobroDetalle", x => x.DetalleId);
+                    table.PrimaryKey("PK_CobrosDetalle", x => x.DetalleId);
                     table.ForeignKey(
-                        name: "FK_CobroDetalle_Cobros_CobroId",
+                        name: "FK_CobrosDetalle_Cobros_CobroId",
                         column: x => x.CobroId,
                         principalTable: "Cobros",
                         principalColumn: "CobroId",
@@ -101,8 +101,8 @@ namespace GestionPrestamos.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CobroDetalle_CobroId",
-                table: "CobroDetalle",
+                name: "IX_CobrosDetalle_CobroId",
+                table: "CobrosDetalle",
                 column: "CobroId");
 
             migrationBuilder.CreateIndex(
@@ -120,7 +120,7 @@ namespace GestionPrestamos.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CobroDetalle");
+                name: "CobrosDetalle");
 
             migrationBuilder.DropTable(
                 name: "Prestamos");

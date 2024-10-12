@@ -83,7 +83,7 @@
                     </div>
 
                     <ul class="mt-3">
-                        @foreach (var detalle in Cobro.CobroDetalle)
+                        @foreach (var detalle in Cobro.CobrosDetalle)
                         {
                             <li class="mt-2">Préstamo ID: @detalle.PrestamoId, Valor Cobrado: @detalle.ValorCobrado
                                 <button type="button" @onclick="() => Eliminar(detalle)" class="btn btn-outline-danger btn-sm ms-2">Eliminar</button>
@@ -109,7 +109,7 @@
     public int CobroId { get; set; }
 
     public Cobros Cobro { get; set; } = new Cobros();
-    public CobroDetalle nuevoDetalle { get; set; } = new CobrosDetalle();
+    public CobrosDetalle nuevoDetalle { get; set; } = new CobrosDetalle();
     public string Mensaje { get; set; } = string.Empty;
     public List<Deudores> ListaDeudores { get; set; } = new List<Deudores>();
     public List<Prestamos> ListaPrestamos { get; set; } = new List<Prestamos>();
@@ -144,7 +144,7 @@
             return;
         }
 
-        Cobro.CobroDetalle.Add(new CobroDetalle
+        Cobro.CobrosDetalle.Add(new CobrosDetalle
             {
                 PrestamoId = nuevoDetalle.PrestamoId,
                 ValorCobrado = nuevoDetalle.ValorCobrado
@@ -168,9 +168,9 @@
         }
     }
 
-    public async Task Eliminar(CobroDetalle detalle)
+    public async Task Eliminar(CobrosDetalle detalle)
     {
-        Cobro.CobroDetalle.Remove(detalle);
+        Cobro.CobrosDetalle.Remove(detalle);
     }
 }
 

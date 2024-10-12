@@ -18,7 +18,7 @@ public partial class Cobros
     public double Monto { get; set; }
 
     [InverseProperty("Cobro")]
-    public virtual ICollection<CobrosDetalle> CobroDetalle { get; set; } = new List<CobrosDetalle>();
+    public virtual ICollection<CobrosDetalle> CobrosDetalle { get; set; } = new List<CobrosDetalle>();
 
     [ForeignKey("DeudorId")]
     [InverseProperty("Cobros")]

@@ -19,10 +19,10 @@ public partial class CobrosDetalle
 
     /*
      Foreign Key: The CobroId property in CobrosDetalle is a foreign key that links to the Cobros entity.
-     Inverse Property: The Cobro property in CobrosDetalle corresponds to the CobroDetalle collection in the Cobros class, establishing a bidirectional relationship.
+     Inverse Property: The Cobro property in CobrosDetalle corresponds to the CobrosDetalle collection in the Cobros class, establishing a bidirectional relationship.
      Navigation Property: The Cobro property allows navigation from a CobrosDetalle entity to its related Cobros entity, facilitating access to related data.
      */
     [ForeignKey("CobroId")]
-    [InverseProperty("CobroDetalle")]
+    [InverseProperty("CobrosDetalle")]
     public virtual Cobros Cobro { get; set; } = null!;
 }
