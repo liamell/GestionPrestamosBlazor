@@ -13,8 +13,6 @@
 
     <div class="container">
         <div class="card shadow-lg">
-
-
             <div class="card-header text-center">
                 <h5 class="card-title">Crear Prestamo</h5>
             </div>
@@ -22,9 +20,9 @@
             <div class="card-body ">
     
                 @*Deudor*@
-                <div class="col-6 ms-3">
+                <div class="mb-3">
                     <label class="form-label"><strong>Deudor</strong></label>
-                    <InputSelect class="form-control" @bind-Value="Prestamo.DeudorId">
+                    <InputSelect class="form-control form-select" @bind-Value="Prestamo.DeudorId">
                         <option>Elija una opci&oacute;n</option>
                         @foreach (var deudor in ListaDeudores)
                         {
@@ -34,13 +32,13 @@
                     <ValidationMessage For="(() => Prestamo.DeudorId)" />
                 </div>
                 @*Concepto*@
-                <div class="col-6 ms-3">
+                <div class="mb-3">
                     <label class="form-label"><strong>Concepto</strong></label>
                     <InputText class="form-control" @bind-Value="Prestamo.Concepto"></InputText>
                     <ValidationMessage For="(() => Prestamo.Concepto)" />
                 </div>
                 @*Monto*@
-                <div class="col-6 ms-3">
+                <div class="mb-3">
                     <label class="form-label"><strong>Monto</strong></label>
                     <InputNumber class="form-control" @bind-Value="Prestamo.Monto"></InputNumber>
                     <ValidationMessage For="(() => Prestamo.Monto)" />
@@ -49,7 +47,7 @@
 
             @*footer*@
             <div class="card-footer text-center mt-2">
-                <a href="/Prestamo/Index" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
+                <a href="/Prestamo/Index" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
                 <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
             </div>
         </div>

@@ -18,7 +18,7 @@
                 <h5><strong>Desea eliminar el prestamo?</strong></h5>
             </div>
             <ul>
-                <li><strong>Id: </strong>@Prestamo.PrestamosId</li>
+                <li><strong>Id: </strong>@Prestamo.PrestamoId</li>
                 <li><strong>DeudorId: </strong>@Prestamo.Deudor.DeudorId</li>
                 <li><strong>Deudor: </strong>@Prestamo.Deudor.Nombres</li>
                 <li><strong>Concepto: </strong>@Prestamo.Concepto</li>
@@ -48,7 +48,7 @@
 
     public async Task Eliminar()
     {
-        var eliminado = await prestamosService.Eliminar(Prestamo.PrestamosId);
+        var eliminado = await prestamosService.Eliminar(Prestamo.PrestamoId);
 
         if (eliminado)
         {
