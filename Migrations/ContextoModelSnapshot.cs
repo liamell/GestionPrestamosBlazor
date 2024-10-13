@@ -85,15 +85,27 @@ namespace GestionPrestamos.Migrations
                     b.HasKey("DeudorId");
 
                     b.ToTable("Deudores");
+
+                    b.HasData(
+                        new
+                        {
+                            DeudorId = 1,
+                            Nombres = "Jose Lopez"
+                        },
+                        new
+                        {
+                            DeudorId = 2,
+                            Nombres = "Maria Perez"
+                        });
                 });
 
             modelBuilder.Entity("GestionPrestamos.Models.Prestamos", b =>
                 {
-                    b.Property<int>("PrestamosId")
+                    b.Property<int>("PrestamoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrestamosId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrestamoId"));
 
                     b.Property<double>("Balance")
                         .HasColumnType("float");
@@ -108,7 +120,7 @@ namespace GestionPrestamos.Migrations
                     b.Property<double>("Monto")
                         .HasColumnType("float");
 
-                    b.HasKey("PrestamosId");
+                    b.HasKey("PrestamoId");
 
                     b.HasIndex("DeudorId");
 

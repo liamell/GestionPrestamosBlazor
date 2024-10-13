@@ -25,13 +25,13 @@
                 </div>
 
                 @* Fecha *@
-                <div class="col-6 ms-3">
+                <div class="mb-3">
                     <label class="form-label"><strong>Fecha</strong></label>
                     <InputDate class="form-control" @bind-Value="Cobro.Fecha"></InputDate>
                 </div>
 
                 @* Deudor *@
-                <div class="col-6 ms-3">
+                <div class="mb-3">
                     <label class="form-label"><strong>Deudor</strong></label>
                     <InputSelect class="form-control" @bind-Value="Cobro.DeudorId">
                         <option value="" selected disabled>Elija una opción</option>
@@ -45,7 +45,7 @@
                 </div>
 
                 @* Monto *@
-                <div class="col-6 ms-3">
+                <div class="mb-3">
                     <label class="form-label"><strong>Monto</strong></label>
                     <InputNumber class="form-control" @bind-Value="Cobro.Monto" readonly></InputNumber>
                     <ValidationMessage For="(() => Cobro.Monto)" />
@@ -68,7 +68,7 @@
                                 <option value="" selected disabled>Elija una opción</option>
                                 @foreach (var prestamo in ListaPrestamos)
                                 {
-                                    <option value="@prestamo.PrestamosId">@prestamo.PrestamosId</option>
+                                    <option value="@prestamo.PrestamoId">@prestamo.PrestamoId</option>
                                 }
                             </InputSelect>
                         </div>
@@ -125,13 +125,13 @@
     {
         var Prestamo = await prestamosService.BuscarPrestamo(Cobro.DeudorId);
 
-        nuevoDetalle.PrestamoId = Prestamo.PrestamosId;
+        nuevoDetalle.PrestamoId = Prestamo.PrestamoId;
         IdPrestamo = Prestamo.DeudorId;
         Cobro.Monto = Prestamo.Monto;
-        ListaPrestamos = await prestamosService.Listar(p => p.DeudorId == IdPrestamo);
-        if(Prestamo?.PrestamosId == 0)
+        ListaPrestamos = await prestamosService.GetList(p => p.DeudorId == IdPrestamo);
+        if(Prestamo?.PrestamoId == 0)
         {
-            Prestamo.PrestamosId = 0;
+            Prestamo.PrestamoId = 0;
         }
     }
 

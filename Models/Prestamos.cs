@@ -9,7 +9,7 @@ namespace GestionPrestamos.Models;
 public partial class Prestamos
 {
     [Key]
-    public int PrestamosId { get; set; }
+    public int PrestamoId { get; set; }
 
     [Required(ErrorMessage = "Este campo es requerido")]
     public string Concepto { get; set; } = null!;

@@ -15,7 +15,17 @@ public class CobrosService(Contexto contexto)
     private async Task<bool> Insertar(Cobros cobro)
     {
         contexto.Cobros.Add(cobro);
+        await AfectarPrestamos(cobro.CobrosDetalle.ToArray());
         return await contexto.SaveChangesAsync() > 0;
+    }
+
+    private async Task AfectarPrestamos(CobrosDetalle[] detalle)
+    {
+        foreach (var item in detalle)
+        {
+            var prestamo = await contexto.Prestamos.SingleAsync(p => p.PrestamoId == item.PrestamoId);
+            prestamo.Balance -= item.ValorCobrado;
+        }
     }
 
     private async Task<bool> Modificar(Cobros cobro)

@@ -63,14 +63,14 @@
                     @foreach(var prestamo in ListaPrestamos)
                     {
                         <tr>
-                            <td> @prestamo.PrestamosId</td>
+                            <td> @prestamo.PrestamoId</td>
                             <td> @prestamo.Deudor.Nombres</td>
                             <td> @prestamo.Concepto</td>
                             <td> @prestamo.Monto</td>
                             
                             <td class="text-center">
-                                <a href="/Prestamo/Edit/@prestamo.PrestamosId" class="btn btn-outline-primary bi bi-pencil-square"></a>
-                                <a href="/Prestamo/Delete/@prestamo.PrestamosId" class="btn btn-outline-danger bi bi-trash"></a>
+                                <a href="/Prestamo/Edit/@prestamo.PrestamoId" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                                <a href="/Prestamo/Delete/@prestamo.PrestamoId" class="btn btn-outline-danger bi bi-trash"></a>
                             </td>
                         </tr>
                     }
@@ -93,7 +93,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ListaPrestamos = await prestamosService.Listar(p => p.PrestamosId > 0);
+        ListaPrestamos = await prestamosService.GetList(p => p.PrestamoId > 0);
     }
 
     private async Task Buscar()
@@ -102,19 +102,19 @@
         {
             if (Filtro == "Deudor")
             {
-                ListaPrestamos = await prestamosService.Listar(p => p.Deudor.Nombres.ToLower().Contains(ValorFiltro.ToLower()));
+                ListaPrestamos = await prestamosService.GetList(p => p.Deudor.Nombres.ToLower().Contains(ValorFiltro.ToLower()));
             }
             else if (Filtro == "Concepto")
             {
-                ListaPrestamos = await prestamosService.Listar(p => p.Concepto.ToLower().Contains(ValorFiltro.ToLower()));
+                ListaPrestamos = await prestamosService.GetList(p => p.Concepto.ToLower().Contains(ValorFiltro.ToLower()));
             }
         }
         else
-            ListaPrestamos = await prestamosService.Listar(p => p.PrestamosId > 0);
+            ListaPrestamos = await prestamosService.GetList(p => p.PrestamoId > 0);
     }
     private async Task Restablecer()
     {
-        ListaPrestamos = await prestamosService.Listar(e => e.PrestamosId > 0);
+        ListaPrestamos = await prestamosService.GetList(e => e.PrestamoId > 0);
         Filtro = string.Empty;
         ValorFiltro = string.Empty;
     }
