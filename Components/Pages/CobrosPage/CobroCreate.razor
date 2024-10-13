@@ -33,7 +33,7 @@
                 @* Deudor *@
                 <div class="col-6 ms-3">
                     <label class="form-label"><strong>Deudor</strong></label>
-                    <InputSelect class="form-control" @bind-Value="Cobro.DeudorId">
+                    <InputSelect class="form-control" @bind-Value="Cobro.DeudorId" @onclick="BuscarListaPrestamos">
                         <option value="" selected disabled>Elija una opción</option>
                         @foreach (var deudor in ListaDeudores)
                         {
@@ -130,6 +130,10 @@
     protected override async Task OnInitializedAsync()
     {
         ListaDeudores = await deudoresService.Listar(d => d.DeudorId > 0);
+    }
+    public async Task BuscarListaPrestamos()
+    {
+        ListaPrestamos = await prestamosService.Listar(p => p.DeudorId == Cobro.DeudorId);
     }
 
     private async Task HandlePrestamoSelected((Prestamos prestamo, double Quantity) selection)
