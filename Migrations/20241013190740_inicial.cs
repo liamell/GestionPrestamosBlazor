@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace GestionPrestamos.Migrations
 {
     /// <inheritdoc />
@@ -49,7 +51,7 @@ namespace GestionPrestamos.Migrations
                 name: "Prestamos",
                 columns: table => new
                 {
-                    PrestamosId = table.Column<int>(type: "int", nullable: false)
+                    PrestamoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Concepto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Monto = table.Column<double>(type: "float", nullable: false),
@@ -58,7 +60,7 @@ namespace GestionPrestamos.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prestamos", x => x.PrestamosId);
+                    table.PrimaryKey("PK_Prestamos", x => x.PrestamoId);
                     table.ForeignKey(
                         name: "FK_Prestamos_Deudores_DeudorId",
                         column: x => x.DeudorId,
@@ -86,6 +88,15 @@ namespace GestionPrestamos.Migrations
                         principalTable: "Cobros",
                         principalColumn: "CobroId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Deudores",
+                columns: new[] { "DeudorId", "Nombres" },
+                values: new object[,]
+                {
+                    { 1, "Jose Lopez" },
+                    { 2, "Maria Perez" }
                 });
 
             migrationBuilder.CreateIndex(
