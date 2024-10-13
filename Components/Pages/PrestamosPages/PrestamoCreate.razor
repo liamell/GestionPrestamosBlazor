@@ -9,7 +9,7 @@
 <PageTitle>Create</PageTitle>
 <EditForm Model="Prestamo" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
-    <ValidationSummary />
+    
 
     <div class="container">
         <div class="card shadow-lg">
@@ -25,13 +25,13 @@
                 <div class="col-6 ms-3">
                     <label class="form-label"><strong>Deudor</strong></label>
                     <InputSelect class="form-control" @bind-Value="Prestamo.DeudorId">
-                        <option value="" selected disabled>Elija una opci&oacute;n</option>
+                        <option>Elija una opci&oacute;n</option>
                         @foreach (var deudor in ListaDeudores)
                         {
                             <option value="@deudor.DeudorId">@deudor.Nombres</option>
                         }
                     </InputSelect>
-                    <ValidationMessage For="(() => Prestamo.Deudor)" />
+                    <ValidationMessage For="(() => Prestamo.DeudorId)" />
                 </div>
                 @*Concepto*@
                 <div class="col-6 ms-3">
@@ -50,7 +50,7 @@
             @*footer*@
             <div class="card-footer text-center mt-2">
                 <a href="/Prestamo/Index" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
-                <button type="submit" class="btn btn-primary bi bi-floppy" @onclick="Guardar"> Guardar</button>
+                <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
             </div>
         </div>
     </div>
