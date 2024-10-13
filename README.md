@@ -15,7 +15,7 @@ GestionPrestamos is a loan management system designed to help manage and track l
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/GestionPrestamos.git
+    git clone https://github.com/enelramon/GestionPrestamos.git
     ```
 2. Navigate to the project directory:
     ```sh
@@ -40,17 +40,16 @@ GestionPrestamos is a loan management system designed to help manage and track l
 ## Project Structure
 
 - **Components/**: Contains the Razor components used in the application.
-- **DAL/**: Data Access Layer, contains the database context.
+- **Context/**: Contains the database context.
 - **Migrations/**: Entity Framework migrations.
 - **Models/**: Contains the data models.
-- **Service/**: Contains the service classes.
+- **Services/**: Contains the services classes.
 - **wwwroot/**: Static files.
 
 ## NuGet Packages
 
 The project uses the following NuGet packages:
-
-- [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) - Version 8.0.10
+ 
 - [Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer) - Version 8.0.10
 - [Microsoft.EntityFrameworkCore.Tools](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools) - Version 8.0.10
 
