@@ -15,16 +15,20 @@ public class CobrosService(Contexto contexto)
     private async Task<bool> Insertar(Cobros cobro)
     {
         contexto.Cobros.Add(cobro);
-        await AfectarPrestamos(cobro.CobrosDetalle.ToArray());
+        await AfectarPrestamos(cobro.CobrosDetalle.ToArray(), TipoOperacion.Resta);
         return await contexto.SaveChangesAsync() > 0;
     }
 
-    private async Task AfectarPrestamos(CobrosDetalle[] detalle)
+    private async Task AfectarPrestamos(CobrosDetalle[] detalle, TipoOperacion tipoOperacion)
     {
         foreach (var item in detalle)
         {
             var prestamo = await contexto.Prestamos.SingleAsync(p => p.PrestamoId == item.PrestamoId);
-            prestamo.Balance -= item.ValorCobrado;
+            if (tipoOperacion == TipoOperacion.Resta)
+                prestamo.Balance -= item.ValorCobrado;
+            else
+                prestamo.Balance += item.ValorCobrado;
+
         }
     }
 
@@ -55,7 +59,14 @@ public class CobrosService(Contexto contexto)
 
     public async Task<bool> Eliminar(int cobroId)
     {
-        return await contexto.Cobros.Include(c => c.CobrosDetalle).Where(c => c.CobroId == cobroId).ExecuteDeleteAsync() > 0;
+        var cobro = contexto.Cobros.Find(cobroId);
+
+        await AfectarPrestamos(cobro.CobrosDetalle.ToArray(), TipoOperacion.Suma);
+
+        contexto.CobrosDetalle.RemoveRange(cobro.CobrosDetalle);
+        contexto.Cobros.Remove(cobro);
+        var cantidad = await contexto.SaveChangesAsync();
+        return cantidad > 0;
     }
 
     public async Task<List<Cobros>> Listar(Expression<Func<Cobros, bool>> criterio)
@@ -67,5 +78,11 @@ public class CobrosService(Contexto contexto)
             .ToListAsync();
     }
 
-    
+
+}
+
+public enum TipoOperacion
+{
+    Suma=1,
+    Resta=2
 }
