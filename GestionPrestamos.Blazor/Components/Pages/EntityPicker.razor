@@ -1,20 +1,20 @@
 ﻿@typeparam TEntity
- 
-    <div class="col-auto input-group align-items-center">
+
+<div class="col-auto input-group align-items-center">
     <label class="col-form-label input-group-text">Seleccione:</label>
 
-        <InputSelect class="form-control form-select" id="product-select" @bind-Value="SelectedEntity">
-            <option value="">-- Select a One --</option>
-            @foreach (var product in Entities)
-            {
-                <option value="@product">@GeTModelDisplay(product)</option>
-            }
-        </InputSelect>
+    <InputSelect class="form-control form-select" id="product-select" @bind-Value="SelectedEntity">
+        <option value="">-- Select a One --</option>
+        @foreach (var product in Entities)
+        {
+            <option value="@product">@GeTModelDisplay(product)</option>
+        }
+    </InputSelect>
     <label class="col-form-label input-group-text">Valor:</label>
-        <InputNumber class="form-control" id="quantity-input" @bind-Value="Quantity" min="1"/>
+    <InputNumber class="form-control" id="quantity-input" @bind-Value="Quantity" min="1" />
 
-        <button class="btn btn-primary" @onclick="TriggerSelection">Confirm</button>
-    </div> 
+    <button class="btn btn-primary" @onclick="TriggerSelection">Confirm</button>
+</div>
 
 @code {
     [Parameter]
