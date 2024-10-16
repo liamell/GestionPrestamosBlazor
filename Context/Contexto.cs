@@ -1,7 +1,7 @@
 ﻿using GestionPrestamos.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GestionPrestamos.DAL;
+namespace GestionPrestamos.Context;
 
 public class Contexto : DbContext
 {
