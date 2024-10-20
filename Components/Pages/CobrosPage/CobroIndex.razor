@@ -47,24 +47,24 @@
                 </div> 
             </div>
 
-            <table class="table table-hover">
-                <thead class="table  table-striped text-black">
+            <table class="table table-hover text-center mt-3">
+                <thead class="table  table-striped text-black ">
                     <tr>
                         <th><strong>CobroId</strong></th>
                         <th><strong>Fecha</strong></th>
                         <th><strong>Deudor</strong></th>
                         <th><strong>Monto</strong></th> 
-                        <th><strong></strong></th> 
+                        <th><strong>Opciones</strong></th> 
                     </tr>
                 </thead>
-                <tbody class="text-center">
+                <tbody>
                     @foreach (var cobro in ListaCobros)
                     {
                         <tr>
                             <td> @cobro.CobroId</td>
                             <td> @cobro.Fecha</td>
                             <td> @cobro.Deudor.Nombres</td>
-                            <td> @cobro.Monto</td> 
+                            <td> @cobro.Monto.ToString("N2")</td> 
 
                             <td class="text-center">
                                 <a href="/Cobro/Edit/@cobro.CobroId" class="btn btn-outline-primary bi bi-pencil-square"></a>
@@ -76,8 +76,10 @@
             </table>
         </div> 
         <div class="card-footer space-between">
-            <label>Cantidad:  @ListaCobros.Count()</label>
-            <label>Total:  @ListaCobros.Sum(p => p.Monto)</label>
+            <label class="ms-3"><strong>Cantidad:</strong> @ListaCobros.Count()</label>
+            <div class="col-4">
+                <label class="ms-1"><strong>Total:</strong> $@ListaCobros.Sum(p => p.Monto).ToString("N2")</label>
+            </div>
         </div>
     </div>
 </div>
@@ -92,7 +94,7 @@
     {
         ListaCobros = await cobroService.Listar(c => c.CobroId > 0);
     }
-
+    
     private async Task Buscar()
     {
         if (ValorFiltro.Trim() != "")
