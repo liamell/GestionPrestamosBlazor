@@ -98,6 +98,8 @@
     public Deudores Deudor { get; set; } = new Deudores();
     public List<Prestamos> ListaPrestamos { get; set; } = [];
 
+    public string Mensaje = string.Empty;
+
     protected override async Task OnInitializedAsync() {
         Cobro = await cobroService.Buscar(CobroId);
         Deudor = await deudoresService.Buscar(Cobro.DeudorId);
@@ -128,11 +130,10 @@
         var paso = await cobroService.Guardar(Cobro);
 
         if (paso) {
-            //Mensaje = "Creado correctamente";
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else {
-            //Mensaje = "No se ha creado correctamente";
+            Mensaje = "No se ha creado correctamente";
         }
     }
 

@@ -109,7 +109,7 @@
             </table>
         </div>
         <div class="card-footer space-between">
-            <label class="ms-3"><strong>Cantidad:</strong> @ListaCobros.Count()</label>
+            <label class="ms-3"><strong>Cantidad:</strong> @ListaCobros.Count</label>
             <div class="col-5">
                 <label class="ms-5"><strong>Total:</strong> $@ListaCobros.Sum(p => p.Monto).ToString("N2")</label>
             </div>
@@ -139,12 +139,11 @@
             ListaCobros = await cobroService
             .Listar(f => f.Fecha >= Desde && f.Fecha <= Hasta);
 
-        else if (ValorFiltro.Trim() != "")
+        else if (ValorFiltro.Trim() != "" && Filtro == "Deudor")
         {
-            if (Filtro == "Deudor")
-                ListaCobros = await cobroService
-                .Listar(p => p.Deudor.Nombres.ToLower()
-                .Contains(ValorFiltro.ToLower()));
+            ListaCobros = await cobroService
+            .Listar(p => p.Deudor.Nombres.ToLower()
+            .Contains(ValorFiltro.ToLower()));
         }
     }
     private async Task Restablecer()
