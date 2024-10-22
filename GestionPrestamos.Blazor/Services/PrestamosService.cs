@@ -64,6 +64,7 @@ public class PrestamosService(Contexto contexto)
     {
         return await contexto.Prestamos
             .Where(p => p.DeudorId == deudorId && p.Balance > 0)
+            .OrderBy( p=> p.PrestamoId)
             .AsNoTracking()
             .ToListAsync();
     }

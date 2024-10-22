@@ -38,7 +38,7 @@
                             <option value="0" selected disabled>Elija una opción</option>
                             @foreach (var deudor in ListaDeudores)
                             {
-                                <option value="@deudor.DeudorId">@deudor.Nombres</option>
+                                    <option value="@deudor.DeudorId">@deudor.Nombres</option>
                             }
                         </InputSelect>
                         <button type="button" class="btn btn-outline-success bi bi-arrow-clockwise"
@@ -56,9 +56,9 @@
                     <h5>Detalles del Cobro</h5>
 
                     <PrestamoPicker Prestamos="ListaPrestamos"
-                                    PrestamoId="DetalleSeleccionado.PrestamoId"
-                                    Valor="DetalleSeleccionado.ValorCobrado"
-                                    OnPrestamoSelected="HandlePrestamoSelected"/>
+                    PrestamoId="DetalleSeleccionado.PrestamoId"
+                    Valor="DetalleSeleccionado.ValorCobrado"
+                    OnPrestamoSelected="HandlePrestamoSelected"/>
                     <hr />
                     <table class="table table-light">
                         <thead class="table table-striped">
@@ -71,12 +71,14 @@
                         <tbody>
                             @foreach (var detalle in Cobro.CobrosDetalle)
                             {
-                                <th>@detalle.PrestamoId</th>
-                                <th>@detalle.ValorCobrado</th>
-                                <th>
-                                    <button type="button" class="btn btn-outline-danger bi bi-trash"
-                                            @onclick="() => RemoverDetalle(detalle)"></button>
-                                </th>
+                                    <tr>
+                                        <td>@detalle.PrestamoId</td>
+                                        <td>@detalle.ValorCobrado</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-danger bi bi-trash"
+                                                    @onclick="() => RemoverDetalle(detalle)"></button>
+                                        </td>
+                                    </tr>
                             }
                         </tbody>
                     </table>
@@ -111,6 +113,8 @@
     public List<Deudores> ListaDeudores { get; set; } = [];
     public List<Prestamos> ListaPrestamos { get; set; } = [];
 
+    public double ValorAplicar { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         ListaDeudores = await deudoresService
@@ -126,17 +130,17 @@
     private async Task HandlePrestamoSelected((Prestamos prestamo, double valor) selection)
     {
         var detalle = new CobrosDetalle
-        {
+            {
                 PrestamoId = selection.prestamo.PrestamoId,
                 ValorCobrado = selection.valor
-        };
+            };
 
         Cobro.CobrosDetalle.Add(detalle);
         Cobro.Monto = Cobro.CobrosDetalle.Sum(d => d.ValorCobrado);
 
         DetalleSeleccionado = new CobrosDetalle();
         await Task.CompletedTask;
-    } 
+    }
 
     public async Task Guardar()
     {
@@ -158,5 +162,40 @@
         Cobro.CobrosDetalle.Remove(detalle);
         DetalleSeleccionado = detalle;
     }
+
+    private async Task AplicarValor()
+    {
+        Cobro.CobrosDetalle.Clear();
+        if (ValorAplicar > 0)
+        {
+
+            var prestamosPendientes = await prestamosService
+                .GetPrestamosPendientes(Cobro.DeudorId);
+            foreach (var prestamo in prestamosPendientes)
+            {
+                double valorCobrado = 0;
+                if (prestamo.Balance < ValorAplicar)
+                    valorCobrado = prestamo.Balance;
+                else
+                    valorCobrado = ValorAplicar;
+
+                ValorAplicar -= valorCobrado;
+
+                Cobro.CobrosDetalle.Add(
+                    new CobrosDetalle()
+                        {
+                            PrestamoId = prestamo.PrestamoId,
+                            ValorCobrado = valorCobrado
+                        }
+                );
+            }
+
+
+        }
+
+
+
+    }
+
 }
 
