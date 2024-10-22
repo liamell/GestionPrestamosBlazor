@@ -9,7 +9,9 @@
     <div class="card shadow-lg">
         <div class="card-header space-between">
             <h5 class="card-title">Registro Cobros</h5>
-            <a href="/Cobros/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+            <a href="/Cobros/Create" class="btn btn-primary">
+                <span class="bi bi-plus-square mt-3"></span> Crear
+            </a>
         </div>
 
         <div class="card-body">
@@ -26,6 +28,7 @@
                 <div class="col-4">
                     <label class="col-form-label"><strong>B&uacute;squeda</strong></label>
                 </div>
+
             </div>
 
             @*Inputs y botones*@
@@ -35,6 +38,7 @@
                     <InputSelect class="form-select" @bind-Value="Filtro">
                         <option value="" selected disabled>Elija una opci&oacute;n</option>
                         <option value="Deudor">Deudor</option>
+                        <option value="Fecha">Fecha</option>
                     </InputSelect>
                 </div>
 
@@ -44,40 +48,71 @@
                         <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
                         <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
                     </div>
-                </div> 
+                </div>
+
+
+                @*Restablecer*@
+                <div class="col-3">
+                    <button type="button" class="btn btn-outline-secondary bi bi-arrow-counterclockwise"
+                        @onclick="Restablecer">
+                    </button>
+                </div>
+
+                @*FiltroFecha*@
+                <div class="row mt-3">
+
+                    @*Desde*@
+                    <div class="col-3">
+                        <label class="col-form-label"><strong>Desde</strong></label>
+                        <InputDate class="form-control" @bind-Value="Desde"></InputDate>
+                    </div>
+
+                    @*Hasta*@
+                    <div class="col-3">
+                        <label class="col-form-label"><strong>Hasta</strong></label>
+                        <div class="input-group">
+                            <InputDate class="form-control" @bind-Value="Hasta"></InputDate>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
-            <table class="table table-hover">
-                <thead class="table  table-striped text-black">
+            <table class="table table-hover text-center mt-3">
+                <thead class="table  table-striped text-black ">
                     <tr>
                         <th><strong>CobroId</strong></th>
                         <th><strong>Fecha</strong></th>
                         <th><strong>Deudor</strong></th>
-                        <th><strong>Monto</strong></th> 
-                        <th><strong></strong></th> 
+                        <th><strong>Monto</strong></th>
+                        <th><strong>Opciones</strong></th>
                     </tr>
                 </thead>
-                <tbody class="text-center">
+                <tbody>
                     @foreach (var cobro in ListaCobros)
                     {
                         <tr>
                             <td> @cobro.CobroId</td>
-                            <td> @cobro.Fecha</td>
+                            <td> @cobro.Fecha.ToShortDateString()</td>
                             <td> @cobro.Deudor.Nombres</td>
-                            <td> @cobro.Monto</td> 
+                            <td> @cobro.Monto.ToString("N2")</td>
 
                             <td class="text-center">
-                                <a href="/Cobro/Edit/@cobro.CobroId" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                                <a href="/Cobro/Edit/@cobro.CobroId"
+                                    class="btn btn-outline-primary bi bi-pencil-square"></a>
                                 <a href="/Cobro/Delete/@cobro.CobroId" class="btn btn-outline-danger bi bi-trash"></a>
-                            </td> 
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
-        </div> 
+        </div>
         <div class="card-footer space-between">
-            <label>Cantidad:  @ListaCobros.Count()</label>
-            <label>Total:  @ListaCobros.Sum(p => p.Monto)</label>
+            <label class="ms-3"><strong>Cantidad:</strong> @ListaCobros.Count</label>
+            <div class="col-5">
+                <label class="ms-5"><strong>Total:</strong> $@ListaCobros.Sum(p => p.Monto).ToString("N2")</label>
+            </div>
         </div>
     </div>
 </div>
@@ -88,27 +123,36 @@
     public string Filtro { get; set; } = string.Empty;
     public string ValorFiltro { get; set; } = string.Empty;
 
+    public DateTime? Desde { get; set; }
+
+    public DateTime? Hasta { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         ListaCobros = await cobroService.Listar(c => c.CobroId > 0);
+        Desde = null;
+        Hasta = null;
     }
-
     private async Task Buscar()
     {
-        if (ValorFiltro.Trim() != "")
+        if (Filtro == "Fecha")
+            ListaCobros = await cobroService
+            .Listar(f => f.Fecha >= Desde && f.Fecha <= Hasta);
+
+        else if (ValorFiltro.Trim() != "" && Filtro == "Deudor")
         {
-            if (Filtro == "Deudor")
-            {
-                ListaCobros = await cobroService.Listar(p => p.Deudor.Nombres.ToLower().Contains(ValorFiltro.ToLower()));
-            }
+            ListaCobros = await cobroService
+            .Listar(p => p.Deudor.Nombres.ToLower()
+            .Contains(ValorFiltro.ToLower()));
         }
-        else
-            ListaCobros = await cobroService.Listar(p => p.CobroId > 0);
     }
     private async Task Restablecer()
     {
         ListaCobros = await cobroService.Listar(e => e.CobroId > 0);
         Filtro = string.Empty;
         ValorFiltro = string.Empty;
+        Desde = null;
+        Hasta = null;
     }
+
 }

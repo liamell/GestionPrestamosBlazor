@@ -1,5 +1,5 @@
 using GestionPrestamos.Components;
-using GestionPrestamos.DAL;
+using GestionPrestamos.Context;
 using GestionPrestamos.Services;
 using Microsoft.EntityFrameworkCore;
 
