@@ -1,6 +1,7 @@
 ﻿@page "/Cobro/Delete/{CobroId:int}"
 
 @inject CobrosService cobroService
+@inject DeudoresService deudoresService
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
@@ -16,12 +17,12 @@
             <div class="text-center">
                 <h5><strong>Desea eliminar el cobro?</strong></h5>
             </div>
-            <ul>
+            <ul class="mt-4">
                 <li><strong>CobroId: </strong>@Cobro.CobroId</li>
                 <li><strong>Fecha: </strong>@Cobro.Fecha</li>
-                <li><strong>DeudorId: </strong>@Cobro.Deudor.DeudorId</li>
-                <li><strong>Deudor: </strong>@Cobro.Deudor.Nombres</li>
-                <li><strong>Monto: $</strong>@Cobro.Monto</li>
+                <li><strong>DeudorId: </strong>@Deudor.DeudorId</li>
+                <li><strong>Deudor: </strong>@Deudor.Nombres</li>
+                <li><strong>Monto: </strong>@Cobro.Monto.ToString("N2")</li>
             </ul>
             <div class="border border-success p-2 mt-2">
                 <h7><strong>Detalles de cobro</strong></h7>
@@ -49,11 +50,14 @@
     public int CobroId { get; set; }
 
     public Cobros Cobro { get; set; } = new Cobros();
+
+    public Deudores Deudor { get; set; } = new Deudores();
     public string Mensaje { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         Cobro = await cobroService.Buscar(CobroId);
+        Deudor = await deudoresService.Buscar(Cobro.DeudorId);
     }
 
     public async Task Eliminar()
