@@ -59,7 +59,11 @@ public class CobrosService(Contexto contexto)
 
     public async Task<bool> Eliminar(int cobroId)
     {
-        var cobro = contexto.Cobros.Find(cobroId);
+        var cobro = await contexto.Cobros
+            .Include(c => c.CobrosDetalle)
+            .FirstOrDefaultAsync(c => c.CobroId == cobroId);
+
+        if (cobro == null) return false;
 
         await AfectarPrestamos(cobro.CobrosDetalle.ToArray(), TipoOperacion.Suma);
 
@@ -83,6 +87,6 @@ public class CobrosService(Contexto contexto)
 
 public enum TipoOperacion
 {
-    Suma=1,
-    Resta=2
+    Suma = 1,
+    Resta = 2
 }
