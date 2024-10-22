@@ -5,9 +5,11 @@ using System.Linq.Expressions;
 
 namespace GestionPrestamos.Services;
 
-public class DeudoresService(Contexto contexto)
+public class DeudoresService(IDbContextFactory<Contexto> DbFactory)
 {
-    public async Task<Deudores> Buscar(int deudorId){
+    public async Task<Deudores> Buscar(int deudorId)
+    {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
         return await contexto.Deudores
             .AsNoTracking()
             .FirstOrDefaultAsync(d => d.DeudorId == deudorId);
@@ -15,6 +17,7 @@ public class DeudoresService(Contexto contexto)
 
     public async Task<List<Deudores>> Listar(Expression<Func<Deudores, bool>> criterio)
     {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
         return await contexto.Deudores
             .Where(criterio)
             .AsNoTracking()
