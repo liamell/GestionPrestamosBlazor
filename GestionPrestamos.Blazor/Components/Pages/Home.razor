@@ -20,19 +20,7 @@ Welcome to your new app Gestion de Pr&eacute;stamos.<br />
 @code {
     public List<ToastMessage> messages { get; set; } = new List<ToastMessage>();
 
-    // private void ShowMessage(ToastType toastType) => messages.Add(CreateToastMessage(toastType));
-
-    // private ToastMessage CreateToastMessage(ToastType toastType)
-    // => new ToastMessage {
-    //         Type = toastType,
-    //         Title = "Blazor Bootstrap",
-    //         HelpText = $"{DateTime.Now}",
-    //         Message = $"Hello, world! This is a toast message. DateTime: {DateTime.Now}",
-    //     };
-
-
     public void Notificacion(ToastType toastType) => messages.Add(ShowToast(toastType));
-
 
     private ToastMessage ShowToast(ToastType toastType) {
         var mensaje = new ToastMessage() {
