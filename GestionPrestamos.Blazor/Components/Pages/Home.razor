@@ -4,4 +4,44 @@
 
 <h1>Gestion de Pr&eacute;stamos</h1>
 
-Welcome to your new app Gestion de Pr&eacute;stamos.
+Welcome to your new app Gestion de Pr&eacute;stamos.<br />
+
+
+<Button Color="ButtonColor.Primary" @onclick="() => Notificacion(ToastType.Primary)">Primary Toast</Button>
+<Button Color="ButtonColor.Secondary" @onclick="() => Notificacion(ToastType.Secondary)">Secondary Toast</Button>
+<Button Color="ButtonColor.Success" @onclick="() => Notificacion(ToastType.Success)">Success Toast</Button>
+<Button Color="ButtonColor.Danger" @onclick="() => Notificacion(ToastType.Danger)">Danger Toast</Button>
+<Button Color="ButtonColor.Warning" @onclick="() => Notificacion(ToastType.Warning)">Warning Toast</Button>
+<Button Color="ButtonColor.Info" @onclick="() => Notificacion(ToastType.Info)">Info Toast</Button>
+<Button Color="ButtonColor.Dark" @onclick="() => Notificacion(ToastType.Dark)">Dark Toast</Button>
+
+
+
+@code {
+    public List<ToastMessage> messages { get; set; } = new List<ToastMessage>();
+
+    // private void ShowMessage(ToastType toastType) => messages.Add(CreateToastMessage(toastType));
+
+    // private ToastMessage CreateToastMessage(ToastType toastType)
+    // => new ToastMessage {
+    //         Type = toastType,
+    //         Title = "Blazor Bootstrap",
+    //         HelpText = $"{DateTime.Now}",
+    //         Message = $"Hello, world! This is a toast message. DateTime: {DateTime.Now}",
+    //     };
+
+
+    public void Notificacion(ToastType toastType) => messages.Add(ShowToast(toastType));
+
+
+    private ToastMessage ShowToast(ToastType toastType) {
+        var mensaje = new ToastMessage() {
+                Type = toastType,
+                Title = "tittle",
+                HelpText = $"{DateTime.Now.ToString("dd/MM/yyyy")}",
+                Message = $" A las {DateTime.Now.ToString("hh:mm tt")}",
+            };
+        toastService.Notify(mensaje); // Se agregó el servicio del Toasts
+        return mensaje;
+    }
+}
