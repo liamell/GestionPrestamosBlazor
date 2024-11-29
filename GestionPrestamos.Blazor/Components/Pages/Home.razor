@@ -7,16 +7,6 @@
 Welcome to your new app Gestion de Pr&eacute;stamos.<br />
 
 
-<Button Color="ButtonColor.Primary" @onclick="() => Notificacion(ToastType.Primary)">Primary Toast</Button>
-<Button Color="ButtonColor.Secondary" @onclick="() => Notificacion(ToastType.Secondary)">Secondary Toast</Button>
-<Button Color="ButtonColor.Success" @onclick="() => Notificacion(ToastType.Success)">Success Toast</Button>
-<Button Color="ButtonColor.Danger" @onclick="() => Notificacion(ToastType.Danger)">Danger Toast</Button>
-<Button Color="ButtonColor.Warning" @onclick="() => Notificacion(ToastType.Warning)">Warning Toast</Button>
-<Button Color="ButtonColor.Info" @onclick="() => Notificacion(ToastType.Info)">Info Toast</Button>
-<Button Color="ButtonColor.Dark" @onclick="() => Notificacion(ToastType.Dark)">Dark Toast</Button>
-
-
-
 @code {
     public List<ToastMessage> messages { get; set; } = new List<ToastMessage>();
 
