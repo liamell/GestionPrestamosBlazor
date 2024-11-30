@@ -19,6 +19,9 @@ builder.Services.AddScoped<PrestamosService>();
 builder.Services.AddScoped<DeudoresService>();
 builder.Services.AddScoped<CobrosService>();
 
+// Inyeccion del servicio de Bootstrap
+builder.Services.AddBlazorBootstrap();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
