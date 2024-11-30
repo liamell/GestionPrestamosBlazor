@@ -130,10 +130,11 @@
         var paso = await cobroService.Guardar(Cobro);
 
         if (paso) {
+            toastService.ShowSuccess("Success", "Se ha modificado correctamente");
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else {
-            Mensaje = "No se ha creado correctamente";
+            toastService.ShowError("Error", "No se ha podido modificar correctamente");
         }
     }
 

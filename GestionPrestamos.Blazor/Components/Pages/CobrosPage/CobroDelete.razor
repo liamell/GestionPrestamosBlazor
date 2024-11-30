@@ -66,12 +66,12 @@
 
         if (eliminado)
         {
-            Mensaje = "Se elimino correctamente";
+            toastService.ShowSuccess("Success","Eliminado Correctamente");
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else
         {
-            Mensaje = "No se ha eliminado correctamente";
+            toastService.ShowError("Error","No se ha podido eliminar el cobro");
         }
     }
 }

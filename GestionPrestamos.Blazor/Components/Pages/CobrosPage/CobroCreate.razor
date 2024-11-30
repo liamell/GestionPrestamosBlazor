@@ -148,12 +148,12 @@
 
         if (paso)
         {
-            //Mensaje = "Creado correctamente";
+            toastService.ShowSuccess("Success", "Cobro Guardado Correctamente");
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else
         {
-            //Mensaje = "No se ha creado correctamente";
+            toastService.ShowError("Error", "No se pudo guardar correctamente");
         }
     }
 
