@@ -7,17 +7,3 @@
 Welcome to your new app Gestion de Pr&eacute;stamos.<br />
 
 
-@code {
-    public void Notificacion(ToastType toastType) => ShowToast(toastType);
-
-    private ToastMessage ShowToast(ToastType toastType) {
-        var mensaje = new ToastMessage() {
-                Type = toastType,
-                Title = "tittle",
-                HelpText = $"{DateTime.Now.ToString("dd/MM/yyyy")}",
-                Message = $" A las {DateTime.Now.ToString("hh:mm tt")}",
-            };
-        toastService.Notify(mensaje); // Se agregó el servicio del Toasts
-        return mensaje;
-    }
-}
