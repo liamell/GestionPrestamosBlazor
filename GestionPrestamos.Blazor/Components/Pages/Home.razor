@@ -8,9 +8,7 @@ Welcome to your new app Gestion de Pr&eacute;stamos.<br />
 
 
 @code {
-    public List<ToastMessage> messages { get; set; } = new List<ToastMessage>();
-
-    public void Notificacion(ToastType toastType) => messages.Add(ShowToast(toastType));
+    public void Notificacion(ToastType toastType) => ShowToast(toastType);
 
     private ToastMessage ShowToast(ToastType toastType) {
         var mensaje = new ToastMessage() {
