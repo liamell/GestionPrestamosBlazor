@@ -1,10 +1,8 @@
 ﻿@page "/Prestamo/Edit/{PrestamoId:int}"
-@using Microsoft.EntityFrameworkCore
 
 @inject PrestamosService prestamosService
 @inject DeudoresService deudoresService
-@inject NavigationManager navigationManager
-@rendermode InteractiveServer
+@inject ToastService toastService
 
 @*HTML*@
 <PageTitle>Modificar</PageTitle>
@@ -76,11 +74,11 @@
 
         if (creado)
         {
-            Mensaje = "Modificado correctamente";
+            toastService.ShowSuccess( "Se ha modificado correctamente");
         }
         else
         {
-            Mensaje = "No se ha modificado correctamente";
+            toastService.ShowError("No se ha podido modificar correctamente");
         }
     }
 }

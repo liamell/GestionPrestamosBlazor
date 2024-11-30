@@ -15,17 +15,20 @@ public static class ToastServiceExtensions
     }
 
     // ShowSuccess method
-    public static ToastMessage ShowSuccess(this ToastService toastService, string title = "Success", string customMessage = null) {
+    public static ToastMessage ShowSuccess(this ToastService toastService, string customMessage = null,
+        string title = "Success") {
         return toastService.ShowToast(ToastType.Success, title, customMessage);
     }
 
     // ShowWarning method
-    public static ToastMessage ShowWarning(this ToastService toastService, string title = "Warning", string customMessage = null) {
+    public static ToastMessage ShowWarning(this ToastService toastService, string customMessage = null,
+        string title = "Warning") {
         return toastService.ShowToast(ToastType.Warning, title, customMessage);
     }
 
     // ShowError method
-    public static ToastMessage ShowError(this ToastService toastService, string title = "Error", string customMessage = null) {
+    public static ToastMessage ShowError(this ToastService toastService, string customMessage = null,
+        string title = "Error") {
         return toastService.ShowToast(ToastType.Danger, title, customMessage);
     }
 
