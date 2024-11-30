@@ -3,7 +3,7 @@
 @inject CobrosService cobroService
 @inject DeudoresService deudoresService
 @inject NavigationManager navigationManager
-@rendermode InteractiveServer
+@inject ToastService toastService
 
 <PageTitle>Delete</PageTitle>
 <div class="container">
@@ -66,12 +66,12 @@
 
         if (eliminado)
         {
-            toastService.ShowSuccess("Success","Eliminado Correctamente");
+            toastService.ShowSuccess("Eliminado Correctamente");
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else
         {
-            toastService.ShowError("Error","No se ha podido eliminar el cobro");
+            toastService.ShowError( "No se ha podido eliminar el cobro");
         }
     }
 }

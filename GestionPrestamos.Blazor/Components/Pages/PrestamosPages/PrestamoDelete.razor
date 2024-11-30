@@ -2,7 +2,7 @@
 
 @inject PrestamosService prestamosService
 @inject NavigationManager navigationManager
-@rendermode InteractiveServer
+@inject ToastService toastService
 
 @*HTML*@
 <PageTitle>Delete</PageTitle>
@@ -52,12 +52,12 @@
 
         if (eliminado)
         {
-            Mensaje = "Se elimino correctamente";
+            toastService.ShowSuccess("Eliminado Correctamente");
             navigationManager.NavigateTo("/Prestamo/Index");
         }
         else
         {
-            Mensaje = "No se ha eliminado correctamente";
+            toastService.ShowError( "No se ha podido eliminar");
         }
     }
 }

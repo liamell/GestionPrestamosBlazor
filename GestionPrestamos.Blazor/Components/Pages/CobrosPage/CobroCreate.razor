@@ -4,6 +4,7 @@
 @inject DeudoresService deudoresService
 @inject PrestamosService prestamosService
 @inject NavigationManager navigationManager
+@inject ToastService toastService
 
 <PageTitle>Crear Cobros</PageTitle>
 <EditForm Model="Cobro" OnValidSubmit="Guardar">
@@ -38,7 +39,7 @@
                             <option value="0" selected disabled>Elija una opción</option>
                             @foreach (var deudor in ListaDeudores)
                             {
-                                    <option value="@deudor.DeudorId">@deudor.Nombres</option>
+                                <option value="@deudor.DeudorId">@deudor.Nombres</option>
                             }
                         </InputSelect>
                         <button type="button" class="btn btn-outline-success bi bi-arrow-clockwise"
@@ -56,9 +57,9 @@
                     <h5>Detalles del Cobro</h5>
 
                     <PrestamoPicker Prestamos="ListaPrestamos"
-                    PrestamoId="DetalleSeleccionado.PrestamoId"
-                    Valor="DetalleSeleccionado.ValorCobrado"
-                    OnPrestamoSelected="HandlePrestamoSelected"/>
+                                    PrestamoId="DetalleSeleccionado.PrestamoId"
+                                    Valor="DetalleSeleccionado.ValorCobrado"
+                                    OnPrestamoSelected="HandlePrestamoSelected" />
                     <hr />
                     <table class="table table-light">
                         <thead class="table table-striped">
@@ -71,14 +72,14 @@
                         <tbody>
                             @foreach (var detalle in Cobro.CobrosDetalle)
                             {
-                                    <tr>
-                                        <td>@detalle.PrestamoId</td>
-                                        <td>@detalle.ValorCobrado</td>
-                                        <td>
-                                            <button type="button" class="btn btn-outline-danger bi bi-trash"
-                                                    @onclick="() => RemoverDetalle(detalle)"></button>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>@detalle.PrestamoId</td>
+                                    <td>@detalle.ValorCobrado</td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger bi bi-trash"
+                                                @onclick="() => RemoverDetalle(detalle)"></button>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -148,12 +149,12 @@
 
         if (paso)
         {
-            toastService.ShowSuccess("Success", "Cobro Guardado Correctamente");
+            toastService.ShowSuccess("Cobro Guardado Correctamente");
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else
         {
-            toastService.ShowError("Error", "No se pudo guardar correctamente");
+            toastService.ShowError("No se pudo guardar correctamente");
         }
     }
 

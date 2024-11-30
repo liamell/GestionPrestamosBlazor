@@ -3,7 +3,7 @@
 @inject PrestamosService prestamosService
 @inject DeudoresService deudoresService
 @inject NavigationManager navigationManager
-@rendermode InteractiveServer
+@inject ToastService toastService
 
 @*HTML*@
 <PageTitle>Create</PageTitle>
@@ -71,12 +71,12 @@
 
         if (creado)
         {
-            Mensaje = "Creado correctamente";
+            toastService.ShowSuccess("Cobro Guardado Correctamente");
             navigationManager.NavigateTo("/Prestamo/Index");
         }
         else
         {
-            Mensaje = "No se ha creado correctamente";
+            toastService.ShowError("No se pudo guardar correctamente");
         }
     }
 }
