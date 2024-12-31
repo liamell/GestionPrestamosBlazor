@@ -3,6 +3,7 @@
 @inject PrestamosService prestamosService
 @inject DeudoresService deudoresService
 @inject ToastService toastService
+@inject NavigationManager navigationManager
 
 @*HTML*@
 <PageTitle>Modificar</PageTitle>
@@ -45,13 +46,15 @@
 
             @*footer*@
             <div class="card-footer text-center mt-2">
-                <a href="/Prestamo/Index" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
+                <a href="/Prestamo/Index" class="btn btn-secondary"> 
+                    <span class="bi bi-arrow-left"></span> Volver
+                </a>
                 <button type="submit" class="btn btn-primary bi bi-floppy" @onclick="Modificar"> Modificar</button>
+                <button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
             </div>
         </div>
     </div>
 </EditForm>
-@Mensaje
 
 @code {
     [Parameter]
@@ -79,6 +82,20 @@
         else
         {
             toastService.ShowError("No se ha podido modificar correctamente");
+        }
+    }
+
+    private async Task Eliminar(){
+        var eliminado = await prestamosService.Eliminar(Prestamo.PrestamoId);
+
+        if (eliminado)
+        {
+            toastService.ShowSuccess("Se ha eliminado correctamente");
+            navigationManager.NavigateTo("/Prestamo/Index");
+        }
+        else
+        {
+            toastService.ShowError("No se ha podido eliminar correctamente");
         }
     }
 }
