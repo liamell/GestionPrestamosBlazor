@@ -18,10 +18,5 @@ public partial class Deudores
 
     [InverseProperty("Deudor")]
     public virtual ICollection<Prestamos> Prestamos { get; set; } = new List<Prestamos>();
-    /*
-     [InverseProperty("Deudor")]: This attribute specifies the inverse navigation property in the Cobros class. 
-            It tells EF that the Cobros collection in the Deudores class corresponds to the Deudor property in the Cobros class.
-       public virtual ICollection<Cobros> Cobros { get; set; } = new List<Cobros>();: This is a navigation property that represents a collection of Cobros entities related to the Deudores entity. 
-            The virtual keyword enables lazy loading, and the property is initialized to an empty list.
-     */
+   
 }
