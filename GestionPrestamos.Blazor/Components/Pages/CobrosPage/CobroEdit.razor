@@ -4,7 +4,7 @@
 @inject DeudoresService deudoresService
 @inject PrestamosService prestamosService
 @inject NavigationManager navigationManager
-@inject ToastService toastService
+
 
 <PageTitle>Edit</PageTitle>
 <EditForm Model="Cobro" OnValidSubmit="Modificar">
@@ -90,6 +90,8 @@
     </div>
 </EditForm>
 
+@Mensaje
+
 
 @code {
     [Parameter] 
@@ -131,11 +133,11 @@
         var paso = await cobroService.Guardar(Cobro);
 
         if (paso) {
-            toastService.ShowSuccess( "Se ha modificado correctamente");
+            Mensaje = "Se ha modificado correctamente";
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else {
-            toastService.ShowError( "No se ha podido modificar correctamente");
+            Mensaje = "No se ha podido modificar correctamente";
         }
     }
 

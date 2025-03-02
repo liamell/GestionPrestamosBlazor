@@ -4,7 +4,7 @@
 @inject DeudoresService deudoresService
 @inject PrestamosService prestamosService
 @inject NavigationManager navigationManager
-@inject ToastService toastService
+
 
 <PageTitle>Crear Cobros</PageTitle>
 <EditForm Model="Cobro" OnValidSubmit="Guardar">
@@ -107,9 +107,12 @@
     </div>
 </EditForm>
 
+@Mensaje 
+
 
 @code {
     public Cobros Cobro { get; set; } = new Cobros();
+    public string Mensaje { get; set; } = string.Empty;
     public CobrosDetalle DetalleSeleccionado { get; set; } = new();
     public List<Deudores> ListaDeudores { get; set; } = [];
     public List<Prestamos> ListaPrestamos { get; set; } = [];
@@ -149,12 +152,12 @@
 
         if (paso)
         {
-            toastService.ShowSuccess("Cobro Guardado Correctamente");
+            Mensaje = "Cobro Guardado Correctamente";
             navigationManager.NavigateTo("/Cobro/Index");
         }
         else
         {
-            toastService.ShowError("No se pudo guardar correctamente");
+            Mensaje = "No se pudo guardar correctamente";
         }
     }
 
