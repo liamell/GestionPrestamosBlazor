@@ -12,6 +12,8 @@ public class Contexto : DbContext
     public virtual DbSet<Cobros> Cobros { get; set; }
     public virtual DbSet<CobrosDetalle> CobrosDetalle { get; set; }
 
+    public virtual DbSet<PrestamosDetalle> PrestamosDetalle { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Deudores>().HasData(
