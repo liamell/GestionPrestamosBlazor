@@ -1,0 +1,144 @@
+﻿@page "/Prestamo/Cuota"
+@inject PrestamosService prestamosService
+@using Microsoft.EntityFrameworkCore.Query.Internal
+
+<div class="border border-success p-3 mt-3">
+    <h5>Detalles de las Cuotas</h5>
+
+
+    <EditForm Model="nuevoDetalle" OnValidSubmit="AgregarDetalle">
+    @* Seleccionar Préstamo *@
+    <div class="row">
+
+        @* Detalle ID (Solo lectura) *@
+        <div class="col-4">
+            <label class="form-label"><strong>Detalle ID</strong></label>
+            <InputNumber class="form-control" @bind-Value="nuevoDetalle.DetalleId" disabled></InputNumber>
+        </div>
+
+        <div class="col-4">
+            <label class="form-label"><strong>Préstamo ID</strong></label>
+            <InputSelect class="form-control" @bind-Value="nuevoDetalle.PrestamoId">
+                <option value="" selected disabled>Elija una opción</option>
+                @foreach (var prestamo in ListaPrestamos)
+                {
+                    <option value="@prestamo.PrestamoId">@prestamo.PrestamoId</option>
+                }
+                <ValidationMessage For="@(() => nuevoDetalle.PrestamoId)" />
+            </InputSelect>
+        </div>
+
+        @* Número de Cuota *@
+        <div class="col-4">
+            <label class="form-label"><strong>Número de Cuota</strong></label>
+            <InputNumber class="form-control" @bind-Value="nuevoDetalle.CuotaNo"></InputNumber>
+            <ValidationMessage For="@(() => nuevoDetalle.CuotaNo)" />
+        </div>
+
+        @* Valor de la Cuota *@
+        <div class="col-4">
+            <label class="form-label"><strong>Valor</strong></label>
+            <InputNumber class="form-control" @bind-Value="nuevoDetalle.Valor"></InputNumber>
+            <ValidationMessage For="@(() => nuevoDetalle.Valor)" />
+        </div>
+
+        @* Fecha de Pago *@
+        <div class="col-4 mt-2">
+            <label class="form-label"><strong>Fecha de Pago</strong></label>
+            <InputDate class="form-control" @bind-Value="nuevoDetalle.Fecha"></InputDate>
+            <ValidationMessage For="@(() => nuevoDetalle.Fecha)" />
+        </div>
+
+        @* Balance de la Cuota *@
+        <div class="col-4 mt-2">
+            <label class="form-label"><strong>Balance</strong></label>
+            <InputNumber class="form-control" @bind-Value="nuevoDetalle.Balance"></InputNumber>
+            <ValidationMessage For="@(() => nuevoDetalle.Balance)" />
+        </div>
+
+        <div class="col-4 mt-4">
+            <button type="submit" class="btn btn-success" @onclick="AgregarDetalle">Agregar Detalle</button>
+        </div>
+    </div>
+    </EditForm>
+
+    <hr />
+
+    @* Tabla de cuotas agregadas *@
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr class="text-center">
+                <th>Detalle ID</th>
+                <th>Préstamo ID</th>
+                <th>Cuota No</th>
+                <th>Fecha</th>
+                <th>Valor</th>
+                <th>Balance</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detalle in ListaDetalles)
+            {
+                <tr class="text-center">
+
+                    <td>@detalle.DetalleId</td>
+                    <td>@detalle.PrestamoId</td>
+                    <td>@detalle.CuotaNo</td>
+                    <td>@detalle.Fecha.ToShortDateString()</td>
+                    <td>@detalle.Valor.ToString("N2")</td>
+                    <td>@detalle.Balance.ToString("N2")</td>
+                    <td>
+                        <button type="button" @onclick="() => Eliminar(detalle)" class="btn btn-outline-danger btn-sm">
+                            <span class="bi bi-trash"></span> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public List<Prestamos> ListaPrestamos { get; set; } = new List<Prestamos>();
+    public List<PrestamosDetalle> ListaDetalles { get; set; } = new List<PrestamosDetalle>();
+
+    public PrestamosDetalle nuevoDetalle { get; set; } = new PrestamosDetalle();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Carga los préstamos
+        ListaPrestamos = await prestamosService.GetList(p => true);
+        // Carga los detalles existentes
+        ListaDetalles = await prestamosService.GetDetallesAsync(); // Asegúrate de que este método existe
+    }
+
+    private async Task AgregarDetalle()
+    {
+        if (nuevoDetalle.PrestamoId == 0 || nuevoDetalle.Valor <= 0)
+            return;
+
+        // Guarda el nuevo detalle en la base de datos
+        await prestamosService.AddDetalleAsync(nuevoDetalle); // Asegúrate de que este método existe
+
+        // Agrega el nuevo detalle a la lista en memoria
+        ListaDetalles.Add(new PrestamosDetalle
+            {
+                DetalleId = nuevoDetalle.DetalleId,
+                PrestamoId = nuevoDetalle.PrestamoId,
+                CuotaNo = nuevoDetalle.CuotaNo,
+                Fecha = nuevoDetalle.Fecha,
+                Valor = nuevoDetalle.Valor,
+                Balance = nuevoDetalle.Balance
+            });
+
+        nuevoDetalle = new PrestamosDetalle(); // Reinicia el nuevo detalle
+    }
+
+    private void Eliminar(PrestamosDetalle detalle)
+    {
+        // Elimina el detalle de la lista en memoria
+        ListaDetalles.Remove(detalle);
+        // Aquí también puedes implementar la eliminación en la base de datos si lo necesitas
+    }
+}
