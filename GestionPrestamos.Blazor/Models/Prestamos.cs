@@ -25,4 +25,8 @@ public partial class Prestamos
     [ForeignKey("DeudorId")]
     [InverseProperty("Prestamos")]
     public virtual Deudores Deudor { get; set; } = null!;
+
+    public ICollection<PrestamosDetalle> PrestamosDetalle { get; set; } = new List<PrestamosDetalle>();
 }
+
+
