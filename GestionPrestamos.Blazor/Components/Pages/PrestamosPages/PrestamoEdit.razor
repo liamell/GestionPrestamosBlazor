@@ -1,8 +1,6 @@
 ﻿@page "/Prestamo/Edit/{PrestamoId:int}"
-
 @inject PrestamosService prestamosService
 @inject DeudoresService deudoresService
-@inject ToastService toastService
 @inject NavigationManager navigationManager
 
 @*HTML*@
@@ -77,11 +75,11 @@
 
         if (creado)
         {
-            toastService.ShowSuccess( "Se ha modificado correctamente");
+            Mensaje = "Se ha modificado correctamente";
         }
         else
         {
-            toastService.ShowError("No se ha podido modificar correctamente");
+            Mensaje = "No se ha podido modificar correctamente";
         }
     }
 
@@ -90,12 +88,12 @@
 
         if (eliminado)
         {
-            toastService.ShowSuccess("Se ha eliminado correctamente");
+            Mensaje = "Se ha eliminado correctamente";
             navigationManager.NavigateTo("/Prestamo/Index");
         }
         else
         {
-            toastService.ShowError("No se ha podido eliminar correctamente");
+           Mensaje = "No se ha podido eliminar correctamente";
         }
     }
 }

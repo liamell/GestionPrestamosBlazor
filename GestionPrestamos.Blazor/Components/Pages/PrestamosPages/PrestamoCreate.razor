@@ -1,9 +1,8 @@
 ﻿@page "/Prestamo/Create"
-
 @inject PrestamosService prestamosService
 @inject DeudoresService deudoresService
 @inject NavigationManager navigationManager
-@inject ToastService toastService
+
 
 @*HTML*@
 <PageTitle>Create</PageTitle>
@@ -43,6 +42,9 @@
                     <InputNumber class="form-control" @bind-Value="Prestamo.Monto"></InputNumber>
                     <ValidationMessage For="(() => Prestamo.Monto)" />
                 </div>
+
+                  
+                
             </div>
 
             @*footer*@
@@ -59,6 +61,7 @@
     public Prestamos Prestamo { get; set; } = new Prestamos();
     public string Mensaje { get; set; } = string.Empty;
     public List<Deudores> ListaDeudores { get; set; } = new List<Deudores>();
+    public List<PrestamosDetalle> CuotasGeneradas { get; set; } = new List<PrestamosDetalle>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,12 +74,15 @@
 
         if (creado)
         {
-            toastService.ShowSuccess("Cobro Guardado Correctamente");
+            Mensaje ="Cobro Guardado Correctamente";
             navigationManager.NavigateTo("/Prestamo/Index");
         }
         else
         {
-            toastService.ShowError("No se pudo guardar correctamente");
+            Mensaje = "No se pudo guardar correctamente";
         }
     }
+
+    
+
 }

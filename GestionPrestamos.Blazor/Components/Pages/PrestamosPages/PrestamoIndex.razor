@@ -1,5 +1,5 @@
 ﻿@page "/Prestamo/Index"
-
+@inject ToastService toastService
 @inject PrestamosService prestamosService
 @inject NavigationManager navigationManager
 
@@ -9,7 +9,12 @@
         <div class="card-header space-between">
             <h5 class="card-title">Registro de Prestamos</h5>
             <a href="/Prestamo/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+            <a href="/Prestamo/Cuota" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Cuota</a>
         </div>
+
+        
+            
+                    
 
         <div class="card-body">
 
