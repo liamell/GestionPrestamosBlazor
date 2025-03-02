@@ -76,6 +76,22 @@ public class PrestamosService(IDbContextFactory<Contexto> DbFactory)
             .ToListAsync();
     }
 
+    public async Task AddDetalleAsync(PrestamosDetalle detalle)
+    {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        contexto.PrestamosDetalle.Add(detalle);
+        await contexto.SaveChangesAsync();
+    }
+
+    public async Task<List<PrestamosDetalle>> GetDetallesAsync()
+    {
+        await using var contexto = await DbFactory.CreateDbContextAsync();
+        return await contexto.PrestamosDetalle.ToListAsync();
+    }
+
+
+
+
     public async Task<Prestamos?> BuscarPrestamo(int id)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
